@@ -1,22 +1,20 @@
+import random
 import sys
 
 from PyQt5.QtCore import QRectF
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtWidgets import QWidget, QApplication, QPushButton
+from PyQt5.QtWidgets import QWidget, QApplication, QPushButton, QMainWindow
 from random import randint
+from UI import Ui_MainWindow
 
-class Example(QWidget):
+
+class Example(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.initUI()
-
-    def initUI(self):
-        self.setGeometry(300, 300, 200, 200)
-        self.setWindowTitle('Рисование')
-        self.btn = QPushButton('Рисовать', self)
-        self.btn.move(70, 150)
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.ui.pushButton.clicked.connect(self.paint)
         self.do_paint = False
-        self.btn.clicked.connect(self.paint)
 
     def paintEvent(self, event):
         if self.do_paint:
@@ -31,7 +29,11 @@ class Example(QWidget):
         self.update()
 
     def draw_flag(self, qp):
-        qp.setBrush(QColor('yellow'))
+        red = random.randint(0, 255)
+        green = random.randint(0, 255)
+        blue = random.randint(0, 255)
+
+        qp.setBrush(QColor(red, green, blue))
         diameter = randint(20, 100)  # Случайный диаметр от 20 до 100
         x = randint(0, self.width() - diameter)
         y = randint(0, self.height() - diameter)
